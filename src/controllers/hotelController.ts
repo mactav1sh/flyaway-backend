@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 export const createHotel = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   try {
     const hotel = await Hotel.create(req.body);
@@ -16,7 +16,7 @@ export const createHotel = async (
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
@@ -24,7 +24,7 @@ export const createHotel = async (
 export const getHotels = async (
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   try {
     const hotels = await Hotel.find();
@@ -37,14 +37,14 @@ export const getHotels = async (
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
 export const getHotel = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -56,7 +56,7 @@ export const getHotel = async (
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
@@ -64,12 +64,12 @@ export const getHotel = async (
 export const updateHotel = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      req.body,
       { new: true }
     );
     res.status(200).json({
@@ -79,7 +79,7 @@ export const updateHotel = async (
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
@@ -87,7 +87,7 @@ export const updateHotel = async (
 export const deleteHotel = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
@@ -95,6 +95,6 @@ export const deleteHotel = async (
       status: 'success',
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };

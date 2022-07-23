@@ -7,9 +7,11 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import globalErrorHandler from './controllers/errorController';
 import wrongRouteHandler from './utils/wrongRouteHandler';
-
+// Routers
 import hotelRouter from './routes/hotelRoute';
 import userRouter from './routes/userRoute';
+import roomRouter from './routes/roomRoute';
+
 // Create server
 const app = express();
 
@@ -46,6 +48,7 @@ app.use(cookieParser());
 // ROUTES
 app.use('/api/v1/hotels', hotelRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/rooms', roomRouter);
 
 // WRONG ROUTE HANDLER
 app.all('*', wrongRouteHandler);

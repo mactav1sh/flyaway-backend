@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, CookieOptions } from 'express';
-import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-import { promisify } from 'util';
+import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
 import AppError from '../utils/AppError';
 import { IUser } from '../models/UserModel';
@@ -85,6 +84,34 @@ export const signIn = async (
   }
 };
 
+// Update password
+export const updatePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.params.id !== req.user?.id) {
+      return next(
+        new AppError(403, 'you are not allowed to  perform this action')
+      );
+    }
+    const { password, passwordConfirm } = req.body;
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      throw new AppError(404, 'Invalid request make sure token is not expired');
+    }
+
+    user.password = password;
+    user.passwordConfirm = passwordConfirm;
+    await user.save();
+    createAndSendToken(user, res, 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // PROTECT ROUTE
 export const protectRoute = async (
   req: Request,
@@ -106,16 +133,29 @@ export const protectRoute = async (
             if (!currentUser)
               return next(new AppError(404, 'user is not found'));
             req.user = currentUser;
+            next();
           });
         }
       }
     );
-
-    next();
   } catch (error) {
     next(error);
   }
 };
+
+// RESTRICT ROUTE
+export const restrictRoute =
+  (...roles: string[]) =>
+  (req: Request, _res: Response, next: NextFunction) => {
+    // TODO: maybe ?
+    // if admin allow any action
+    // if user only allow if req.param.id === user.id
+    if (roles.includes(req.user?.role as string)) {
+      next();
+    } else {
+      next(new AppError(403, 'you are not authorized to perform this action'));
+    }
+  };
 
 // const verifyToken = <T>(token: string, secret: Secret): Promise<T> => {
 // 	return new Promise((resolve, reject) => {

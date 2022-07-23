@@ -1,31 +1,31 @@
 import express from 'express';
-import * as hotelController from '../controllers/hotelController';
+import * as roomController from '../controllers/roomController';
 import * as authController from '../controllers/authController';
 
 const router = express.Router();
 
 router.post(
-  '/',
+  '/:hotelId',
   authController.protectRoute,
   authController.restrictRoute('admin'),
-  hotelController.createHotel
+  roomController.createRoom
 );
 
-router.get('/', hotelController.getHotels);
-router.get('/:id', hotelController.getHotel);
+router.get('/', roomController.getRooms);
+router.get('/:id', roomController.getRoom);
 
 router.patch(
   '/:id',
   authController.protectRoute,
   authController.restrictRoute('admin'),
-  hotelController.updateHotel
+  roomController.updateRoom
 );
 
 router.delete(
-  '/:id',
+  '/:id/:hotelId',
   authController.protectRoute,
   authController.restrictRoute('admin'),
-  hotelController.deleteHotel
+  roomController.deleteRoom
 );
 
 export default router;
