@@ -1,26 +1,28 @@
 import mongoose from 'mongoose';
 
-interface IHotel {
+interface IProperty {
   name: string;
   type: string;
+  country: string;
   city: string;
   address: string;
   distance: string;
-  photos?: [string];
+  photos?: string[];
   title: string;
   desc: string;
   rating?: number;
-  rooms?: [string];
+  rooms?: string[];
   cheapestPrice: number;
   featured: boolean;
 }
 
-const hotelSchema = new mongoose.Schema<IHotel>({
+const propertySchema = new mongoose.Schema<IProperty>({
   name: { type: String, required: true },
   type: {
     type: String,
     required: true,
   },
+  country: { type: String, required: true },
   city: { type: String, required: true },
   address: { type: String, required: true },
   distance: { type: String, required: true },
@@ -33,6 +35,6 @@ const hotelSchema = new mongoose.Schema<IHotel>({
   featured: { type: Boolean, default: false },
 });
 
-const Hotel = mongoose.model('Hotel', hotelSchema);
+const Property = mongoose.model('Property', propertySchema);
 
-export default Hotel;
+export default Property;

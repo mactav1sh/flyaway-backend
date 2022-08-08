@@ -73,7 +73,7 @@ export const signIn = async (
     // 2. compare passwords
     const isAuthenticated = await user.comparePasswords(
       password,
-      user.password
+      user.password as string
     );
     if (!isAuthenticated)
       return next(new AppError(404, 'please provide the correct credentials'));

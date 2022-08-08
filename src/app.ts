@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
@@ -8,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import globalErrorHandler from './controllers/errorController';
 import wrongRouteHandler from './utils/wrongRouteHandler';
 // Routers
-import hotelRouter from './routes/hotelRoute';
+import propertyRouter from './routes/propertyRoute';
 import userRouter from './routes/userRoute';
 import roomRouter from './routes/roomRoute';
 
@@ -17,6 +18,7 @@ const app = express();
 
 // Middlewars
 // - security
+app.use(cors());
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(
@@ -46,7 +48,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(cookieParser());
 // ROUTES
-app.use('/api/v1/hotels', hotelRouter);
+app.use('/api/v1/properties', propertyRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/rooms', roomRouter);
 

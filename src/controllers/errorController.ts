@@ -17,11 +17,12 @@ function globalErrorHandler(
   _next: NextFunction
 ) {
   err.statusCode = err.statusCode || 500;
+  sendErrorDev(res, err);
 
-  if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(res, err);
-  }
-  // TODO: Add error handling for production
+  // TODO: Add error handling for production & development
+  // if (process.env.NODE_ENV === 'development') {
+  //   sendErrorDev(res, err);
+  // }
 }
 
 export default globalErrorHandler;

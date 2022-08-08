@@ -1,5 +1,5 @@
 import Room from '../models/RoomModel';
-import Hotel from '../models/HotelModel';
+import Property from '../models/PropertyModel';
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utils/AppError';
 
@@ -13,14 +13,15 @@ export const createRoom = async (
     // create new room
     const room = await Room.create(req.body);
     // add new room.id to the rooms array inside hotel model
-    const hotel = await Hotel.findByIdAndUpdate(
-      req.params.hotelId,
+    const property = await Property.findByIdAndUpdate(
+      req.params.propertyId,
       {
         $push: { rooms: room._id },
       },
       { runValidators: true, new: true }
     );
-    if (!hotel) return next(new AppError(404, "there's no hotel with this id"));
+    if (!property)
+      return next(new AppError(404, "there's no Property with this id"));
 
     res.status(200).json({
       status: 'success',
@@ -106,15 +107,16 @@ export const deleteRoom = async (
     await Room.findByIdAndDelete(req.params.id);
 
     // delete room.id from the rooms array inside hotel
-    const hotel = await Hotel.findByIdAndUpdate(
-      req.params.hotelId,
+    const property = await Property.findByIdAndUpdate(
+      req.params.propertyId,
       {
         $pull: { rooms: roomId },
       },
       { runValidators: true, new: true }
     );
 
-    if (!hotel) return next(new AppError(404, "there's no hotel with this id"));
+    if (!property)
+      return next(new AppError(404, "there's no hotel with this id"));
 
     res.status(204).json({
       status: 'success',

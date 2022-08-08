@@ -5,7 +5,7 @@ import * as authController from '../controllers/authController';
 const router = express.Router();
 
 router.post(
-  '/:hotelId',
+  '/:propertyId',
   authController.protectRoute,
   authController.restrictRoute('admin'),
   roomController.createRoom
@@ -22,7 +22,7 @@ router.patch(
 );
 
 router.delete(
-  '/:id/:hotelId',
+  '/:id/:propertyId',
   authController.protectRoute,
   authController.restrictRoute('admin'),
   roomController.deleteRoom

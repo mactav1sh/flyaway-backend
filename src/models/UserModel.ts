@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
 
 export interface IUser {
   id?: string;
@@ -14,7 +13,7 @@ export interface IUser {
   passwordResetToken: string;
   passwordResetTokenExpires: Date;
   active: boolean;
-  comparePasswords: Function;
+  comparePasswords: (password: string, hashedPassword: string) => boolean;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
