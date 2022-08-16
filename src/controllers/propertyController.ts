@@ -1,6 +1,7 @@
-import Property from '../models/PropertyModel';
+import Property, { IProperty } from '../models/PropertyModel';
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utils/AppError';
+import { Query } from 'mongoose';
 
 // Create
 export const createProperty = async (
@@ -23,12 +24,42 @@ export const createProperty = async (
 
 // READ
 export const getProperties = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const properties = await Property.find();
+    let query;
+    const { minPrice, maxPrice, location, limit, ...reqObject } = req.query;
+
+    // TODO: REFACTOR FILTERING
+    // Filtering based on location (either a city or country)
+    if (location)
+      query = Property.find({
+        $or: [{ city: req.query.location }, { country: req.query.location }],
+        ...reqObject,
+      });
+    else {
+      query = Property.find(reqObject);
+    }
+
+    // Max and min price
+    if (minPrice || maxPrice) {
+      query = query.find({
+        price: {
+          $gte: req.query.minPrice || 100,
+          $lte: req.query.maxPrice || 100000000,
+        },
+      });
+    }
+
+    // Limit
+    if (limit) {
+      query.limit(+limit);
+    }
+
+    const properties = await query.sort({createdAt:-1})
+
     res.status(200).json({
       status: 'success',
       length: properties.length,
@@ -118,6 +149,9 @@ export const getPropertiesCountByTypes = async (
             $sum: 1,
           },
         },
+      },
+      {
+        $sort: { _id: -1 },
       },
     ]);
 

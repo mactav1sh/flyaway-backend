@@ -1,18 +1,19 @@
 import mongoose from 'mongoose';
 
-interface IProperty {
+export interface IProperty {
   name: string;
   type: string;
   country: string;
   city: string;
   address: string;
-  distance: string;
+  distance: number;
   photos?: string[];
-  title: string;
+  shortDesc: string;
   desc: string;
   rating?: number;
   rooms?: string[];
-  cheapestPrice: number;
+  interior: string;
+  price: number;
   featured: boolean;
 }
 
@@ -21,17 +22,19 @@ const propertySchema = new mongoose.Schema<IProperty>({
   type: {
     type: String,
     required: true,
+    enum: ['apartments', 'hotels', 'hostels', 'villas', 'cabins', 'resorts'],
   },
   country: { type: String, required: true },
   city: { type: String, required: true },
   address: { type: String, required: true },
-  distance: { type: String, required: true },
+  distance: { type: Number, required: true },
   photos: { type: [String] },
-  title: { type: String, required: true },
   desc: { type: String, required: true },
-  rating: { type: Number, min: 0, max: 5 },
+  shortDesc: { type: String, required: true },
+  rating: { type: Number, min: 0, max: 10, default: 5 },
   rooms: { type: [String] },
-  cheapestPrice: { type: Number, required: true },
+  interior: { type: String, required: true },
+  price: { type: Number, required: true },
   featured: { type: Boolean, default: false },
 });
 
