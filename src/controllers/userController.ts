@@ -121,3 +121,21 @@ export const deleteUser = async (
     next(error);
   }
 };
+
+// Logout
+export const signOut = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Remove user from request object
+    req.user = undefined;
+    // Clear jwt cookie
+    res.clearCookie('access_token');
+    // Redirect user to home
+    res.status(200).json({ status: 'logged out' });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'A user must have a name'],
     },
     role: {
       type: String,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'A user must have an email'],
       unique: true,
       lowercase: true,
       validate: [validator.isEmail, 'email is not valid'],
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema<IUser>(
     password: {
       type: String,
       required: [true, 'user must provide a password'],
-      minlength: 8,
+      minlength: [8, 'Password must be atleast 8 characters'],
       select: false,
     },
     passwordConfirm: {
@@ -54,6 +54,7 @@ const userSchema = new mongoose.Schema<IUser>(
 );
 
 function passwordConfirmValidator(this: IUser, field: string): boolean {
+  console.log(this.password, field);
   return field === this.password;
 }
 

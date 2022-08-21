@@ -46,7 +46,7 @@ export const signUp = async (
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      passwordConfirm: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
       // TODO: REMOVE ROLE AFTER FINISHING DEVELOPMENT
       role: req.body.role,
     });
@@ -115,7 +115,7 @@ export const updatePassword = async (
 // PROTECT ROUTE
 export const protectRoute = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   try {
@@ -168,3 +168,10 @@ export const restrictRoute =
 // 		});
 // 	});
 // }
+
+// app.get('/logout', function(req, res){
+//   // clear the remember me cookie when logging out
+//   res.clearCookie('remember_me');
+//   req.logout();
+//   res.redirect('/');
+//  });

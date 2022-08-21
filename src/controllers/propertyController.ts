@@ -58,7 +58,7 @@ export const getProperties = async (
       query.limit(+limit);
     }
 
-    const properties = await query.sort({createdAt:-1})
+    const properties = await query.sort({ createdAt: -1 });
 
     res.status(200).json({
       status: 'success',
@@ -117,7 +117,7 @@ export const updateProperty = async (
   }
 };
 
-// Delete
+// DELETE
 export const deleteProperty = async (
   req: Request,
   res: Response,
@@ -133,9 +133,9 @@ export const deleteProperty = async (
   }
 };
 
-// count by types
+// COUNT BY PROPERTY TYPES
 export const getPropertiesCountByTypes = async (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -166,10 +166,9 @@ export const getPropertiesCountByTypes = async (
   }
 };
 
-// count by cities
-
+// COUNT BY CITIES
 export const getPropertiesCountByCities = async (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {

@@ -81,9 +81,13 @@ export const updateRoom = async (
   next: NextFunction
 ) => {
   try {
-    const updatedRoom = await Room.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updatedRoom = await Room.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, $push: { unavailableDates: req.body.dates } },
+      {
+        new: true,
+      }
+    );
     res.status(200).json({
       status: 'success',
       data: {
@@ -120,6 +124,34 @@ export const deleteRoom = async (
 
     res.status(204).json({
       status: 'success',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET A PROPERTY'S ROOMS
+export const getPropertyRooms = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // 1) Get property
+    const property = await Property.findById(req.params.propertyId, 'rooms');
+    // 2) Create an array of promises containing each room
+    const roomPromises = property?.rooms?.map((roomId) =>
+      Room.findById(roomId)
+    ) as [];
+    // 3) Await promises
+    const roomsData = await Promise.all(roomPromises);
+
+    res.status(200).json({
+      status: 'success',
+      length: roomsData.length,
+      data: {
+        rooms: roomsData,
+      },
     });
   } catch (error) {
     next(error);

@@ -5,7 +5,7 @@ interface IRoom {
   price: number;
   maxPeople: number;
   desc: string;
-  roomNumbers: [{ number: number; unavailableDates: [Date] }];
+  unavailableDates: [Date];
 }
 
 const roomSchema = new mongoose.Schema<IRoom>(
@@ -17,10 +17,7 @@ const roomSchema = new mongoose.Schema<IRoom>(
     },
     maxPeople: { type: Number, required: true },
     desc: { type: String, required: true },
-    roomNumbers: {
-      type: [{ number: Number, unavailableDates: [Date] }],
-      required: true,
-    },
+    unavailableDates: { type: [Date], required: true },
   },
   { timestamps: true }
 );

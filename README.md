@@ -1,7 +1,7 @@
 # Getting Started
 
 A Backend for a Booking website clone created with the MERN Stack and used only for learning.  
-The Backend is created using NodeJS (Express) with Typescript and for the Database, MongoDB With Mongoose.  
+The Backend is created using NodeJS (Express) with Typescript and MongoDB With Mongoose for the Database.  
 You can check the Frontend [here](https://github.com/mactav1sh/flyaway-frontend).
 
 ## Available Scripts

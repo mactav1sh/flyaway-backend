@@ -13,13 +13,9 @@ router.post(
 
 router.get('/', roomController.getRooms);
 router.get('/:id', roomController.getRoom);
+router.get('/property/:propertyId', roomController.getPropertyRooms);
 
-router.patch(
-  '/:id',
-  authController.protectRoute,
-  authController.restrictRoute('admin'),
-  roomController.updateRoom
-);
+router.patch('/:id', roomController.updateRoom);
 
 router.delete(
   '/:id/:propertyId',
