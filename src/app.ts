@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
-import hpp from 'hpp';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -21,14 +20,6 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(mongoSanitize());
-app.use(
-  hpp({
-    whitelist: [
-      // define parameters here
-      'price',
-    ],
-  })
-);
 
 app.use(
   '/',

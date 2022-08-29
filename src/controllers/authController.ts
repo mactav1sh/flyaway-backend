@@ -41,7 +41,7 @@ export const signUp = async (
   next: NextFunction
 ) => {
   try {
-    // 1. create user
+    // create user
     const newUser = await User.create({
       name: req.body.name,
       email: req.body.email,
@@ -147,31 +147,9 @@ export const protectRoute = async (
 export const restrictRoute =
   (...roles: string[]) =>
   (req: Request, _res: Response, next: NextFunction) => {
-    // TODO: maybe ?
-    // if admin allow any action
-    // if user only allow if req.param.id === user.id
     if (roles.includes(req.user?.role as string)) {
       next();
     } else {
       next(new AppError(403, 'you are not authorized to perform this action'));
     }
   };
-
-// const verifyToken = <T>(token: string, secret: Secret): Promise<T> => {
-// 	return new Promise((resolve, reject) => {
-// 		jwt.verify(token, secret, (err, decode) => {
-// 			if (!err) {
-// 				resolve(decode as T);
-// 			} else {
-// 				reject(err);
-// 			}
-// 		});
-// 	});
-// }
-
-// app.get('/logout', function(req, res){
-//   // clear the remember me cookie when logging out
-//   res.clearCookie('remember_me');
-//   req.logout();
-//   res.redirect('/');
-//  });

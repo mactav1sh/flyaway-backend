@@ -2,7 +2,6 @@ import express from 'express';
 import * as authController from '../controllers/authController';
 import * as userController from '../controllers/userController';
 
-import User from '../models/UserModel';
 const router = express.Router();
 
 router.get('/sign-out', userController.signOut);

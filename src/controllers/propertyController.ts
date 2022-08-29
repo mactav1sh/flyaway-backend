@@ -1,7 +1,6 @@
-import Property, { IProperty } from '../models/PropertyModel';
+import Property from '../models/PropertyModel';
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utils/AppError';
-import { Query } from 'mongoose';
 
 // Create
 export const createProperty = async (
