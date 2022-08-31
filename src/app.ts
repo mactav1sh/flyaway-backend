@@ -44,13 +44,14 @@ app.use('/api/v1/properties', propertyRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/rooms', roomRouter);
 
-console.log(path.join(__dirname, '../optional-frontend'));
+console.log(path.join(__dirname, '..', 'optional-frontend'));
+
 // Serving frontend
-if (process.env.ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../optional-frontend')));
 
   app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../optional-frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'optional-frontend', 'index.html'));
   });
 }
 
