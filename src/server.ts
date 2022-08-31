@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 dotenv.config();
 
-const db = process.env.DATABASE_LOCAL as string;
+const db = process.env.DATABASE_URL as string;
 
 mongoose.connect(db).then(() => {
   console.log('database connected');
