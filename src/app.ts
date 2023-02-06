@@ -11,12 +11,11 @@ import wrongRouteHandler from './utils/wrongRouteHandler';
 import propertyRouter from './routes/propertyRoute';
 import userRouter from './routes/userRoute';
 import roomRouter from './routes/roomRoute';
-import path from 'path';
 
 // Create server
 const app = express();
 
-// Middlewars
+// Middleware
 // - security
 app.use(cors());
 app.use(helmet());
